@@ -1,0 +1,44 @@
+<div class="wishlist">
+  <div
+    *ngIf="
+      domainStatusWishlistProducts &&
+      domainStatusWishlistProducts.domain &&
+      domainStatusWishlistProducts.domain.length
+    "
+    ngClass.xs="wishlist-xs"
+    ngClass.sm="wishlist-sm"
+    ngClass.md="wishlist-md"
+    ngClass.lg="wishlist-lg"
+    ngClass.xl="wishlist-lg"
+    fxLayout="row wrap"
+  >
+    <div
+      class="wishlist__container__item"
+      *ngFor="let productTemplateRef of domainStatusWishlistProducts.domain"
+    >
+      <app-product-item
+        (productAddedToFavorite)="handleProductAddedToFavorite($event)"
+        [product]="productTemplateRef"
+      ></app-product-item>
+    </div>
+  </div>
+
+  <ng-container
+    *ngIf="
+      this.domainStatusWishlistProducts.requestStatus.status ===
+      requestStatuses.FAILED
+    "
+  >
+    <mat-error>{{
+      domainStatusWishlistProducts.requestStatus.errorMessage
+    }}</mat-error>
+    <button
+      mat-raised-button
+      color="accent"
+      style="margin-top: 20px; width: 200px"
+      (click)="loadWishlistProducts()"
+    >
+      Retry request
+    </button>
+  </ng-container>
+</div>
